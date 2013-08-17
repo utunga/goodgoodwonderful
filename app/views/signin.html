@@ -1,0 +1,44 @@
+ <div class="hero-unit" style="width:400px;">
+  <table class="login">
+  	<tr><td class="border_r border_b">
+  			<a href="" ng-click="next()"><img src="img/F.png" /></a>
+  		</td>
+  		<td class="border_l border_b">
+  			<a href="" ng-click="next()"><img src="img/G+.png" /></a>
+  		</td></tr>
+	<tr><td class="border_r border_t">
+		<a href="" ng-click="next()"><img src="img/T.png" /></a>
+	</td>
+		<td class="border_l border_t">
+			<div class="login-form">
+ 
+			 <form class="form-horizontal" style="margin-left:-150px; width:100px;" action='' method="POST">
+			  <fieldset>
+			    <div class="control-group">
+			      <div class="controls">
+			        <input type="text" id="username" name="username" ng-model="username" placeholder="your@email" class="input-xlarge">
+			      </div>
+			    </div>
+			 
+			    <div class="control-group">
+			      <!-- Password-->
+			      <div class="controls">
+			        <input ng-model="password" type="password" id="password" name="password" placeholder="password" class="input-xlarge">
+			      </div>
+			    </div>
+			 
+			 
+			    <div class="control-group">
+			      <!-- Button -->
+			      <div class="controls">
+			        <button ng-click="loginForm()" class="btn btn-success">Login</button>
+			      </div>
+			    </div>
+			  </fieldset>
+			</form>
+        </div>
+
+		</td>
+	</tr>
+  </table>
+</div>

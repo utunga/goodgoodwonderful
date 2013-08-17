@@ -1,0 +1,20 @@
+<div class="container skills">
+	<h3>
+		Hey {{user.name}} what are some of your skills?
+	</h3>
+	<h4><i>
+    	Everybody has skills to offer their community. Click on your favourites!
+    </i>
+	</h4>
+	<ul class="thumbnails">
+		<li class="span4" align="center" ng-repeat="(skill_key, skill) in available_skills">
+
+			<a href="" ng-click="toggle(skill_key)">
+				<img class="skill_img" ng-show="!(hasSkill(skill_key))" src="img/{{skill.prefix}}.svg">
+				<img class="skill_img" ng-show="hasSkill(skill_key)" src="img/{{skill.prefix}}check.svg">
+			</a>
+			<br/><i><strong>{{skill.name}}</strong></i>
+		</li>
+	</ul>
+	<button ng-click="next()" class="btn btn-success">submit</button>
+</div>
