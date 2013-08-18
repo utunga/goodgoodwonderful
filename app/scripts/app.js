@@ -100,9 +100,41 @@ app.controller('SkillChoiceCtrl', function ($scope, $rootScope, $location) {
   $scope.toggle = toggle;
 });
 
-app.controller('FeedCtrl', function ($scope, $rootScope, $location) {
-  
-  $scope.feed = 
+app.controller('NavCtrl', function ($scope, $rootScope, $location) {
+  $scope.goto = function(page) {
+    $location.path(page);
+  }
+
+  $scope.search = function() {
+      $rootScope.$broadcast('searchEvt', $scope.query); 
+  };
+
+});
+
+
+app.controller('FeedCtrl', function ($scope, $rootScope, $filter, $location) {
+
+ var searchMatch = function (haystack, needle) {
+      if (!haystack)
+        return false;
+      if (!needle) {
+          return true;
+      }
+      return haystack.toLowerCase().indexOf(needle.toLowerCase()) !== -1;
+  };
+
+  $scope.$on('searchEvt', function(event, query) {
+
+    $scope.feed  = $filter('filter')(allData, function (post) {
+        if (searchMatch(post.from, query)) return true;
+        if (searchMatch(post.msg, query)) return true;
+        if (_.any(post.skills, function(skill) { return searchMatch(skill, query); })) return true;
+        return false;
+    });
+
+  });
+
+  var allData = 
   [{
     type:"request",
     from:"rohana",
@@ -115,12 +147,14 @@ app.controller('FeedCtrl', function ($scope, $rootScope, $location) {
     from:"Joe",
     to:"Mona",
     profile_img:"joe",
+    hrs: 2,
     msg:"Thanks Mona for helping with the car!",
     skills: ["auto"]
   },
   {
     type:"new_member",
-    from:"Sue",
+    from:"Sue", 
+    organisation: "Kapiti Timebank",
     profile_img:"sue",
     skills: ["auto","garden","office","diy"]
   },
@@ -137,5 +171,7 @@ app.controller('FeedCtrl', function ($scope, $rootScope, $location) {
     profile_img:"sue",
     msg:"Hey everyone it's great to be on here.. Let me know if I am doing this right?"
   }]
+
+  $scope.feed = allData;
 
 });

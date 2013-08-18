@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
 </head>
-  <body ng-app="skillfabricApp">
+<body ng-app="skillfabricApp">
     <!--[if lt IE 7]>
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
@@ -28,6 +28,34 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
+    
+    <div class="navbar navbar-fixed-top" ng-controller="NavCtrl"  id="navbar">
+            <div class="navbar-inner">
+    <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        </a>
+        <div class="nav-collapse">
+            <ul class="nav nav-pills">
+                <li ><a href="" ng-click="goto('feed')">Home</a></li>
+                <li>
+                    <input type="text" class="search-query"
+                     ng-model="query" ng-change="search()" placeholder="Search">
+                    <button type="submit" class="btn"><i class="icon-search"></i></button>
+                </li>
+                <li><a href="" ng-click="goto('skills')">Skills Map</a></li>
+                <li><a href="" ng-click="goto('profile')">Your profile</a></li>
+                <li><a href="" ng-click="goto('post_request')">Post a request</a></li>
+            </ul><!-- /.nav -->
+        </div><!--/.nav-collapse -->
+    </div><!-- /.container -->
+</div><!-- /.navbar-inner -->
+    </div><!-- /.navbar -->
+
+
+
     <div class="container" ng-view=""></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

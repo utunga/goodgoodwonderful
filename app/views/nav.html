@@ -1,0 +1,20 @@
+<div class="navbar-inner">
+    <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        </a>
+        <div class="nav-collapse">
+                <ul class="nav nav-pills">
+                    <li ><a href="" ng-click="goto('feed')">Home</a></li>
+                    <li>
+                <input type="text" class="search-query" ng-model="query" ng-change="search()" placeholder="Search">
+                <button type="submit" class="btn"><i class="icon-search"></i></button>
+            </li>
+                <li><a href="" ng-click="goto('skills')">Skills Map</a></li>
+                <li><a href="" ng-click="goto('profile')">Your profile</a></li>
+            </ul><!-- /.nav -->
+        </div><!--/.nav-collapse -->
+    </div><!-- /.container -->
+</div><!-- /.navbar-inner -->
