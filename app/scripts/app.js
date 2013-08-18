@@ -23,118 +23,23 @@ var app = angular.module('skillfabricApp', [])
         templateUrl: 'views/feed.html',
         controller: 'FeedCtrl'
       })
+      .when('/post_request', {
+        templateUrl: 'views/post_request.html',
+        controller: 'PostCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
   });
 
-app.controller('MainCtrl', function ($scope, $rootScope, $location) {
-  $scope.next = function() {
-    $location.path("thanks");
-  }
-});
-
-app.controller('ThanksCtrl', function ($scope, $rootScope, $location) {
-  $scope.next = function() {
-    $location.path("signin");
-  }
-});
-
-
-app.controller('SignInCtrl', function ($scope, $rootScope, $location) {
-  $scope.next = function() {
-    $rootScope.user =
-      { name: "Joe" }
-    $location.path("skills_choice");
+app.run(function($rootScope) {
+  $rootScope.user = {
+    name: "Pepper",
+    profile_img: "pepper"
   }
 
-  $scope.loginForm = function() {
-    $rootScope.user = { name: $scope.email }
-    $location.path("skills_choice");
-  }
-});
 
-app.controller('SkillChoiceCtrl', function ($scope, $rootScope, $location) {
-  
-  $scope.available_skills = 
-  {
-    "computer": {prefix: "computer", name: "Computer"},
-    "garden": {prefix: "garden", name: "Gardening"},
-    "music": {prefix: "music", name: "Music"},
-    "office": {prefix: "office", name: "Computer"},
-    "diy": {prefix: "diy", name: "Home handiwork"},
-    "cooking": {prefix: "cooking", name: "Cooking"},
-    "painting": {prefix: "painting", name: "Painting"}
-  }
-
-  $scope.next = function() {
-    $location.path("feed");
-  }
-
-  if (!$rootScope.user)  $rootScope.user = {};
-
-  $rootScope.user.skills = []
-
-  function hasSkill(skill_to_find) {
-    var found = false;
-    _.each($scope.user.skills, function(skill_key) {
-      if (skill_to_find==skill_key) {
-        found=true;
-      }
-    });
-    return found;
-  }
-
-  function toggle(skill_key) {
-    var currentSkills = $rootScope.user.skills;
-    if (hasSkill(skill_key)) {
-       currentSkills  = _.without(skill_key);
-    }
-    else {
-      currentSkills  = _.union(currentSkills, skill_key);
-    }
-     $rootScope.user.skills= currentSkills;
-  }
-
-  $scope.hasSkill = hasSkill;
-  $scope.toggle = toggle;
-});
-
-app.controller('NavCtrl', function ($scope, $rootScope, $location) {
-  $scope.goto = function(page) {
-    $location.path(page);
-  }
-
-  $scope.search = function() {
-      $rootScope.$broadcast('searchEvt', $scope.query); 
-  };
-
-});
-
-
-app.controller('FeedCtrl', function ($scope, $rootScope, $filter, $location) {
-
- var searchMatch = function (haystack, needle) {
-      if (!haystack)
-        return false;
-      if (!needle) {
-          return true;
-      }
-      return haystack.toLowerCase().indexOf(needle.toLowerCase()) !== -1;
-  };
-
-  $scope.$on('searchEvt', function(event, query) {
-
-    $scope.feed  = $filter('filter')(allData, function (post) {
-        if (searchMatch(post.from, query)) return true;
-        if (searchMatch(post.msg, query)) return true;
-        if (_.any(post.skills, function(skill) { return searchMatch(skill, query); })) return true;
-        return false;
-    });
-
-  });
-
-  var allData = 
+  var initData = 
   [{
     type:"request",
     from:"rohana",
@@ -172,6 +77,134 @@ app.controller('FeedCtrl', function ($scope, $rootScope, $filter, $location) {
     msg:"Hey everyone it's great to be on here.. Let me know if I am doing this right?"
   }]
 
-  $scope.feed = allData;
+  $rootScope.feed = initData;
+})
+
+app.controller('MainCtrl', function ($scope, $rootScope, $location) {
+  $scope.next = function() {
+    $location.path("thanks");
+  }
+});
+
+app.controller('ThanksCtrl', function ($scope, $rootScope, $location) {
+  $scope.next = function() {
+    $location.path("signin");
+  }
+});
+
+
+app.controller('SignInCtrl', function ($scope, $rootScope, $location) {
+  $scope.next = function() {
+    $rootScope.user =
+      { name: "Joe" }
+    $location.path("skills_choice");
+  }
+
+  $scope.loginForm = function() {
+    $rootScope.user = { name: $scope.email }
+    $location.path("skills_choice");
+  }
+});
+
+
+
+app.controller('PostCtrl', function ($scope, $rootScope, $location) {
+  
+  $scope.available_skills = 
+  {
+    "computer": {prefix: "computer", name: "Computer"},
+    "garden": {prefix: "garden", name: "Gardening"},
+    "music": {prefix: "music", name: "Music"},
+    "office": {prefix: "office", name: "Office Work"},
+    "diy": {prefix: "diy", name: "Home DIY"},
+    "cooking": {prefix: "cooking", name: "Cooking"},
+    "painting": {prefix: "painting", name: "Painting"}
+  }
+
+  $scope.next = function() {
+    $location.path("feed");
+  }
+
+
+  $scope.skills = []
+
+  function hasSkill(skill_to_find) {
+    var found = false;
+    _.each($scope.skills, function(skill_key) {
+      if (skill_to_find==skill_key) {
+        found=true;
+      }
+    });
+    return found;
+  }
+
+  function toggle(skill_key) {
+    var currentSkills = $scope.skills;
+    if (hasSkill(skill_key)) {
+       currentSkills  = _.without(currentSkills,skill_key);
+    }
+    else {
+      currentSkills  = _.union(currentSkills, skill_key);
+    }
+    $scope.skills= currentSkills;
+  }
+
+  function postRequest() {
+    var msg = $scope.msg;
+    var skills = $scope.skills;
+    var new_request = 
+    {
+      type:"request",
+      from: $rootScope.user.name,
+      profile_img: $rootScope.user.profile_img,
+      msg: msg, 
+      skills: skills
+    };
+
+    $rootScope.feed = _.union($rootScope.feed, new_request,[0]);
+    $location.path("feed");
+  }
+
+  $scope.postRequest = postRequest;
+  $scope.hasSkill = hasSkill;
+  $scope.toggle = toggle;
+});
+
+
+
+app.controller('NavCtrl', function ($scope, $rootScope, $location) {
+  $scope.goto = function(page) {
+    $location.path(page);
+  }
+
+  $scope.search = function() {
+      $rootScope.$broadcast('searchEvt', $scope.query); 
+  };
+
+});
+
+
+app.controller('FeedCtrl', function ($scope, $rootScope, $filter, $location) {
+
+ var searchMatch = function (haystack, needle) {
+      if (!haystack)
+        return false;
+      if (!needle) {
+          return true;
+      }
+      return haystack.toLowerCase().indexOf(needle.toLowerCase()) !== -1;
+  };
+
+  $scope.$on('searchEvt', function(event, query) {
+    var allData = $rootScope.feed;
+    $scope.feed  = $filter('filter')(allData, function (post) {
+        if (searchMatch(post.from, query)) return true;
+        if (searchMatch(post.msg, query)) return true;
+        if (_.any(post.skills, function(skill) { return searchMatch(skill, query); })) return true;
+        return false;
+    });
+
+  });
+
 
 });

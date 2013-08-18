@@ -55,8 +55,8 @@ body {
 }
 
 img.skill_img {
-    width: 70px;
-    height: 70px;
+    width: 40px;
+    height: 60px;
 }
 
 #custom-search-form .search-query {
@@ -95,3 +95,5 @@ input.search-query {
 .search-query:focus + button {
     z-index: 3;   
 }
+
+.avatar_ext {width: 70px; height: 70px; }

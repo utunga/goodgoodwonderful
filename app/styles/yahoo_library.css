@@ -486,7 +486,6 @@ html.pop {overflow:hidden;}
 .icon {margin-right: 5px;}
 .mini_avatar, .mini_avatar img { width: 30px; height:30px;}
 .avatar {width: 40px; height: 40px;}/* necessary? all img should have an explicit size */
-.avatar_ext {width: 40px; height: 40px; padding: 3px; border: 1px solid #dfdfdf; background: #fff;}
 /* ----- Color Picker ----- */
 .color_picker span.hash{float: left;margin-top: 3px;margin-right: 3px;}
 .color_picker input{height: 22px;*height: 16px;width: 60px;float: left;padding: 2px;}
