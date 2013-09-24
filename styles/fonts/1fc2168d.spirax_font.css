@@ -1,0 +1,7 @@
+@font-face {
+  font-family: 'Spirax';
+  font-style: normal;
+  font-weight: 400;
+  src: url(http://themes.googleusercontent.com/static/fonts/spirax/v2/BAhREX0n5MHBUGDzlH88uw.eot);
+  src: local('Spirax-Regular'), url(http://themes.googleusercontent.com/static/fonts/spirax/v2/BAhREX0n5MHBUGDzlH88uw.eot) format('embedded-opentype'), url(http://themes.googleusercontent.com/static/fonts/spirax/v2/wiA6NnIvV_zF9oTZ_yafzA.woff) format('woff');
+}
